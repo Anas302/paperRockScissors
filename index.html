@@ -23,37 +23,89 @@
             return "scissors";
     }
 
+
     function playRound(userSelection, computerSelection){
+        let whoWon; //'c' = computer, 'p' = player, 'n' = neither
+
         if(userSelection === "rock"){
-            if(computerSelection === "paper")
+            if(computerSelection === "paper"){
                 console.log("YOU LOST! paper beats rock");
-
-            else if(computerSelection === "scissors")
+                whoWon = "c";
+            }
+            else if(computerSelection === "scissors"){
                 console.log("YOU WON! rock beats scissors");
-
-            else
+                whoWon = 'p';
+            }
+            else{
                 console.log("TIE! both selected rock");
+                whoWon = 'n';
+            }
         }
         else if(userSelection === "paper"){
-            if(computerSelection === "rock")
+            if(computerSelection === "rock"){
                 console.log("YOU WON! paper beats rock");
-
-            else if(computerSelection === "scissors")
+                whoWon = 'p';
+            }
+            else if(computerSelection === "scissors"){
                 console.log("YOU LOST! scissors beats paper");
-
-            else
-                console.log("TIE! both selected paper");            
+                whoWon = 'c';
+            }
+            else{
+                console.log("TIE! both selected paper");     
+                whoWon = 'n';
+            }       
         }
         else{
-            if(computerSelection === "rock")
+            if(computerSelection === "rock"){
                 console.log("YOU LOST! paper beats rock");
-
-            else if(computerSelection === "paper")
+                whoWon = 'c';
+            }
+            else if(computerSelection === "paper"){
                 console.log("YOU WON! scissors beats paper");
-
-            else
-                console.log("TIE! both selected scissors"); 
+                whoWon = 'p';
+            }
+            else{
+                console.log("TIE! both selected scissors");
+                whoWon = 'n';
+            }
         }
+
+        return whoWon;
+    }
+
+
+    function playerSelection(){
+        let choice = prompt("Enter your choice: ");
+        choice = choice.toLowerCase();
+        while(choice !== "rock" || choice != "paper" || choice != "scissors")
+            choice = prompt("Please enter a valid choice: ");
+        
+        return choice;
+    }
+
+
+    function startGame(){
+        let playerScore = 0;
+        let compScore = 0;
+
+        for(let i = 0; i<5; i++){
+            console.log("-=-=-=- GAME " + (i+1) + " -=-=-=-");
+            const playerChoice = playerSelection();
+            const compChoice = computerSelection();
+            const playerWon = playRound(playerChoice, compChoice);
+
+            if(playerWon === 'p')
+                playerScore++;
+            else if(playerWon === 'c')
+                compScore++;
+        }
+
+        if(playerScore > compScore)
+            console.log("-=- THE PLAYER WON -=-");
+        else if(playerScore < compScore)
+            console.log("-=- THE COMPUTER WON -=-");
+        else
+            console.log("-=- IT'S A TIE -=-");
     }
 
 </script>
