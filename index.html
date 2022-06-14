@@ -7,12 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <button id="playRock">Rock</button>
+    <button id="playPaper">Paper</button>
+    <button id="playScissors">Scissors</button>
+    <button id="finalize">Show Results</button>
+    <div>
+        <div id="playerScore">Player Score: </div>
+        <div id="compScore">Computer Score: </div>
+    </div>
 </body>
 </html>
 
 <script>
 
+    let playerScore = 0;
+    let computerScore = 0;
+    let playerScoreDiv = document.querySelector("#playerScore");
+    let compScoreDiv = document.querySelector("#compScore");
     startGame();
 
 
@@ -25,7 +36,6 @@
         else
             return "scissors";
     }
-
 
     function playRound(userSelection, computerSelection){
         let whoWon; //'c' = computer, 'p' = player, 'n' = neither
@@ -72,42 +82,51 @@
                 whoWon = 'n';
             }
         }
-        return whoWon;
+
+        if(whoWon === "c")
+            computerScore++;
+        else if(whoWon === "p")
+            playerScore++;
+
+        playerScoreDiv.textContent = "Player Score: " + playerScore;
+        compScoreDiv.textContent = "Computer Score: " + computerScore;
     }
 
-
-    function playerSelection(){
-        let choice = prompt("Enter your choice: ");
-        choice = choice.toLowerCase();
-        while(choice != "rock" ^ choice != "paper" ^ choice != "scissors")
-            choice = prompt("Please enter a valid choice, you entered " + choice + ":");
-        
-        return choice;
+    function finalizeGame(){
+        if(playerScore > computerScore)
+            console.log("-=- THE PLAYER WON -=-");
+        else if(playerScore < computerScore)
+            console.log("-=- THE COMPUTER WON -=-");
+        else
+            console.log("-=- IT'S A TIE -=-");
     }
-
 
     function startGame(){
         let playerScore = 0;
         let compScore = 0;
 
-        for(let i = 0; i<5; i++){
-            console.log("-=-=-=- GAME " + (i+1) + " -=-=-=-");
-            const playerChoice = playerSelection();
-            const compChoice = computerSelection();
-            const playerWon = playRound(playerChoice, compChoice);
 
-            if(playerWon === 'p')
-                playerScore++;
-            else if(playerWon === 'c')
-                compScore++;
-        }
+        const playRock = document.querySelector("#playRock");
+        const playPaper = document.querySelector("#playPaper");
+        const playScissors = document.querySelector("#playScissors");
+        const finalizeButton = document.querySelector("#finalize");
 
-        if(playerScore > compScore)
-            console.log("-=- THE PLAYER WON -=-");
-        else if(playerScore < compScore)
-            console.log("-=- THE COMPUTER WON -=-");
-        else
-            console.log("-=- IT'S A TIE -=-");
+
+        playRock.addEventListener("click", e => {
+            playRound("rock", computerSelection());
+        });
+
+        playPaper.addEventListener("click", e => {
+            playRound("scissors", computerSelection());
+        });
+
+        playScissors.addEventListener("click", e => {
+            playRound("paper", computerSelection());
+        });
+
+        finalizeButton.addEventListener("click", e => {
+            finalizeGame();
+        });
     }
 
 </script>
